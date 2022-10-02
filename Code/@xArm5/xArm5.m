@@ -23,6 +23,7 @@ end
         function GetxArm5(self)
             pause(0.001);
 
+            % Not orientated correctly
             L1 = Link('d',0.267,   'a',0,           'alpha',0    );      % Base 
             L2 = Link('d',0,       'a',0,           'alpha',-pi/2);      % 
             L3 = Link('d',0,       'a',0.289489,    'alpha',0    );      % 
