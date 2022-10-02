@@ -1,8 +1,7 @@
 %% Clear all ==============================================================
 clc
 clear all;
-close all;
-set(0, 'DefaultFigureWindowStyle', 'docked');
+% set(0, 'DefaultFigureWindowStyle', 'docked');
 
 %% Enviroment =============================================================
 
@@ -41,7 +40,7 @@ dobot = Dobot;
 qInitial = dobot.model.getpos;
 
 % Load xArm5 ----------------------------------------------------------------------------------------
-% xarm = xArm5;
+xarm = xArm5;
 
 
 view([160, 28]);   % Changing the camera angle 
