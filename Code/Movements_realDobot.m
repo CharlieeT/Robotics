@@ -39,13 +39,19 @@ classdef Movements < handle
         end
         %% Send to robot
         function move(qMatrix)     
-            jointTarget = [qMatrix(:,1:3),0]; % Initial Joint Pose
+            jointTarget = [qMatrix(50,1:3),0]; % Initial Joint Pose
             [targetJointTrajPub,targetJointTrajMsg] = rospublisher('/dobot_magician/target_joint_states');
             trajectoryPoint = rosmessage("trajectory_msgs/JointTrajectoryPoint");
             trajectoryPoint.Positions = jointTarget;
             targetJointTrajMsg.Points = trajectoryPoint;
             send(targetJointTrajPub,targetJointTrajMsg);
             pause(2);
+        end
+        %% Turn on/off suction cup
+        function toolOnOff(mode)
+            onOff = mode;
+            openClose = mode;
+            dobot.PublishToolState(onOff,openClose);
         end
     end
 end
