@@ -4,7 +4,7 @@ classdef Movements < handle
     methods(Static)%Class use static methods
         function self = Movements()
         end
-        %% Movement funtions by use forward kinematics
+        %% Movement funtions by use inverse kinematics
         function moveikcon(robot,T,steps)
             q1 = robot.model.getpos;
             q2 = robot.model.ikcon(T,q1);
