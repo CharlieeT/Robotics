@@ -2,9 +2,10 @@
 clear all;
 clc;
 close all;
-rosshutdown;
 
+rosshutdown;
 rosinit;
+
 dobot = DobotMagician();
 
 %% Real Dobot Run
