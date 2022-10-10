@@ -1,7 +1,8 @@
 %% Clear all ==============================================================
 clc
 clear all;
-% set(0, 'DefaultFigureWindowStyle', 'docked');
+close all;
+set(0, 'DefaultFigureWindowStyle', 'docked');
 
 %% Enviroment =============================================================
 

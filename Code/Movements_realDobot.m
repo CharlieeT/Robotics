@@ -5,11 +5,11 @@ classdef Movements < handle
         function self = Movements()
         end
         %% Resolve Motion Rate Control
-        function rmrc(robot, finalPos, obj, steps)
+        function rmrc(robot, finalPos, steps)
             deltaT = 0.05;                                        % Discrete time step
             x = zeros(3,50);
             s = lspb(0,1,50);                                 % Create interpolation scalar
-            initialPos = robot.model.fkine(robot.model.getpos());
+            initialPos = dobot.GetCurrentJointState;
             for i = 1:50
                 x(1,i) = initialPos(1,4)*(1-s(i)) + s(i)*finalPos(1);
                 x(2,i) = initialPos(2,4)*(1-s(i)) + s(i)*finalPos(2);
