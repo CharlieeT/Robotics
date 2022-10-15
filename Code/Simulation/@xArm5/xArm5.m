@@ -24,27 +24,27 @@ end
             pause(0.001);
 
 %             Not orientated correctly
-            L1 = Link('d',0.206,   'a',0,           'alpha',0);      % Base         % d: height offset, a: x horizontal offset, alpha: rotation x axis
-            L2 = Link('d',0.15,    'a',-0.02,      'alpha',0);      % 
-            L3 = Link('d',0,       'a',0,    'alpha',0);      % 
-            L4 = Link('d',0,       'a',0,    'alpha',0);      % 
-            L5 = Link('d',-0.112,   'a',-0.0746,       'alpha',0);      % 
-
-            L1.qlim = [-360 360]*pi/180;
-            L2.qlim = [-118 120]*pi/180;
-            L3.qlim = [-225  11]*pi/180;
-            L4.qlim = [-97  180]*pi/180;
-            L5.qlim = [-360 360]*pi/180;
+%             L1 = Link('d',0.206,   'a',0,           'alpha',0);      % Base         % d: height offset, a: x horizontal offset, alpha: rotation x axis
+%             L2 = Link('d',0.15,    'a',-0.02,      'alpha',0);      % 
+%             L3 = Link('d',0,       'a',0,    'alpha',0);      % 
+%             L4 = Link('d',0,       'a',0,    'alpha',0);      % 
+%             L5 = Link('d',-0.112,   'a',-0.0746,       'alpha',0);      % 
+% 
+%             L1.qlim = [-360 360]*pi/180;
+%             L2.qlim = [-118 120]*pi/180;
+%             L3.qlim = [-225  11]*pi/180;
+%             L4.qlim = [-97  180]*pi/180;
+%             L5.qlim = [-360 360]*pi/180;
             
 %             L2.offset = -1.3849179;        offset: rotation z axis
 %             L3.offset =  2.7331843;
 %             L4.offset = -1.3482664;
 
-%             L1 = Link('d',0.267,    'a',0,      'alpha',-pi/2,  'offset',0, 'qlim',[deg2rad(-360),deg2rad(360)]);
-%             L2 = Link('d',0,        'a',0.28948866,  'alpha',0,      'offset',-1.3849179, 'qlim',[deg2rad(-118),deg2rad(120)]);
-%             L3 = Link('d',0,        'a',0.351158796,  'alpha',0,      'offset',2.7331843, 'qlim',[deg2rad(-225),deg2rad(11)]);
-%             L4 = Link('d',0,        'a',0.076,      'alpha',-pi/2,  'offset', -1.3482664, 'qlim',[deg2rad(-97),deg2rad(180)]);
-%             L5 = Link('d',0.097,      'a',0,      'alpha',0,      'offset',0, 'qlim',[deg2rad(-360),deg2rad(360)]);
+            L1 = Link('d',0.267,    'a',0,      'alpha',-pi/2,  'offset',0, 'qlim',[deg2rad(-360),deg2rad(360)]);
+            L2 = Link('d',0,        'a',0.28948866,  'alpha',0,      'offset',-1.3849179, 'qlim',[deg2rad(-118),deg2rad(120)]);
+            L3 = Link('d',0,        'a',0.351158796,  'alpha',0,      'offset',2.7331843, 'qlim',[deg2rad(-225),deg2rad(11)]);
+            L4 = Link('d',0,        'a',0.076,      'alpha',-pi/2,  'offset', -1.3482664, 'qlim',[deg2rad(-97),deg2rad(180)]);
+            L5 = Link('d',0.097,      'a',0,      'alpha',0,      'offset',0, 'qlim',[deg2rad(-360),deg2rad(360)]);
 
             self.model = SerialLink([L1 L2 L3 L4 L5],'name','xArm5');
             self.model.base = self.model.base * transl(0,0.6,0.736);
