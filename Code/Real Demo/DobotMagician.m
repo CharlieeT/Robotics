@@ -144,6 +144,7 @@ classdef DobotMagician < handle
        function EndEffectorStateCallback(self,src,message,~)
            
        end
+      
 
        function ToolStateCallback(self,src,message,~)
 
