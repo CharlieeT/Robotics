@@ -82,6 +82,26 @@ finalPosYellow = [0.25, 0, 0.83];
 
 Movements.rmrc(dobot,finalPosYellow, Yellow, 50);
 
+%% Collision Detection
+
+% Create Wall of detection
+hold on;
+[Y,Z] = meshgrid(-1:0.01:1,0.1:0.01:1.5);
+sizeMat = size(Y);
+X = repmat(1,sizeMat(1),sizeMat(2));
+%oneSideOfCube_h = surf(X,Y,Z);
+cubePoints = [X(:),Y(:),Z(:)];
+
+cubePoints = [ cubePoints ...
+             ; cubePoints * rotz(pi/2)...
+             ; cubePoints * rotz(pi) ...
+             ; cubePoints * rotz(3*pi/2)]; 
+centerPoint = [-1 0 0.7];
+radii = [0.1 0.1 0.1];
+algeDis = GetAlgebraicDist(cubePoints, [-1,0,0.7], [0.1,0.1,0.1]);
+pointsInside = find(algeDis<1);
+[X,Y,Z] = ellipsoid( centerPoint(1), centerPoint(2), centerPoint(3), radii(1),radii(2), radii(3));
+display(num2str(size(pointsInside,1)));
 
 %% Return to Original Position =========================================================================
 % q1 = dobot.model.getpos;
@@ -94,3 +114,9 @@ Movements.rmrc(dobot,finalPosYellow, Yellow, 50);
 %     dobot.model.animate(qMatrix4(i,:));
 %     drawnow();
 % end
+%%
+function algebraicDist = GetAlgebraicDist(points, centerPoint, radii)
+algebraicDist = ((points(:,1)-centerPoint(1))/radii(1)).^2 ...
+              + ((points(:,2)-centerPoint(2))/radii(2)).^2 ...
+              + ((points(:,3)-centerPoint(3))/radii(3)).^2;
+end

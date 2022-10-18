@@ -20,33 +20,12 @@ classdef Collision < handle
             
         end
         %% Create Epllisoid around robot for collision detection
-        function createCollision(robot,q)
+        function createObstacle()
             centerPoint = [0,0,0];
-            radii = [1,0.5,0.5];
+            radii = [0.5,0.5,0.5];
             [X,Y,Z] = ellipsoid( centerPoint(1), centerPoint(2), centerPoint(3), radii(1),
             radii(2), radii(3) );
-            for i = 1:4
-                robot.points{i} = [X(:),Y(:),Z(:)];
-                warning off
-                robot.faces{i} = delaunay(robot.points{i});
-                warning on;
-            end
-            
-            tr = robot.fkine(q);
-            cubePointsAndOnes = [inv(tr) * [cubePoints,ones(size(cubePoints,1),1)]']';
-            updatedCubePoints = cubePointsAndOnes(:,1:3);
-            algebraicDist = GetAlgebraicDist(updatedCubePoints, centerPoint, radii);
-            pointsInside = find(algebraicDist < 1);
-            display(['2.9: There are now ', num2str(size(pointsInside,1)),' points inside']);
-            
-            for i = 1: size(tr,3)
-                cubePointsAndOnes = [inv(tr(:,:,i)) *
-                    [cubePoints,ones(size(cubePoints,1),1)]']';
-                updatedCubePoints = cubePointsAndOnes(:,1:3);
-                algebraicDist = GetAlgebraicDist(updatedCubePoints, centerPoint, radii);
-                pointsInside = find(algebraicDist < 1);
-                display(['2.10: There are ', num2str(size(pointsInside,1)),' points inside the',num2str(i),'th ellipsoid']);
-            end
+            sphere = surf(X,Y,Z);
         end
         %% Get algebraic distance
         function algebraicDist = GetAlgebraicDist(points, centerPoint, radii)
