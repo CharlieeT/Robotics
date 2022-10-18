@@ -30,7 +30,7 @@ git clone https://github.com/CharlieeT/Robotics.git
 ```
 * For private repo
 ```sh
-git clone https:yourusername@hithub.com/yourproject.git
+git clone https:yourusername@github.com/Robotics.git
 ```
 4. Follow step 2-4 in the simulation section
 5. Run 'main_simulation.m' which is located in Robotics\Code\Real Demo
