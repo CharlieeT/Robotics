@@ -20,12 +20,23 @@ classdef Collision < handle
             
         end
         %% Create Epllisoid around robot for collision detection
-        function createObstacle()
-            centerPoint = [0,0,0];
-            radii = [0.5,0.5,0.5];
-            [X,Y,Z] = ellipsoid( centerPoint(1), centerPoint(2), centerPoint(3), radii(1),
-            radii(2), radii(3) );
-            sphere = surf(X,Y,Z);
+        function wallPoints = createWall()
+            [Y,Z] = meshgrid(-1:0.01:1,0.1:0.01:1.5);
+            sizeMat = size(Y);
+            X = repmat(1,sizeMat(1),sizeMat(2));
+            wallPoints = [X(:),Y(:),Z(:)];
+            
+            wallPoints = [ wallPoints; wallPoints * rotz(pi/2)...
+                ; wallPoints * rotz(pi); wallPoints * rotz(3*pi/2)];
+            cubeAtOigin_h = plot3(wallPoints(:,1),wallPoints(:,2),wallPoints(:,3),'r.');
+        end
+        %% Check for collision
+        function isCollision(wallPoints, objectCenter, objectRadii)
+            algebraicDist = GetAlgebraicDist(wallPoints, objectCenter, objectRadii);
+            pointsInside = find(algebraicDist<=1);
+            if (pointsInside > 0)
+                disp('Object Detected');
+            end
         end
         %% Get algebraic distance
         function algebraicDist = GetAlgebraicDist(points, centerPoint, radii)

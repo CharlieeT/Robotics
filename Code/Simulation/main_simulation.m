@@ -66,42 +66,30 @@ Movements.moveobji(dobot,move1,Red,50);
 % Resolved Motion Rate Control 1
 finalPosRed = [0.25, 0, 0.8];
 
-Movements.rmrc(dobot,finalPosRed, Red, 50);
+% Movements.rmrc(dobot,finalPosRed, Red, 50);
 
-% Moving 2
-
-Movements.moveikcon(dobot,Yellow.YellowCondimentPose,50);
-
-move2 = transl(0.13,-0.22,0.95);
-
-Movements.moveobji(dobot,move2,Yellow,50);
-
-% Resolved Motion Rate Control 2
-
-finalPosYellow = [0.25, 0, 0.83];
-
-Movements.rmrc(dobot,finalPosYellow, Yellow, 50);
+% % Moving 2
+% 
+% Movements.moveikcon(dobot,Yellow.YellowCondimentPose,50);
+% 
+% move2 = transl(0.13,-0.22,0.95);
+% 
+% Movements.moveobji(dobot,move2,Yellow,50);
+% 
+% % Resolved Motion Rate Control 2
+% 
+% finalPosYellow = [0.25, 0, 0.83];
+% 
+% Movements.rmrc(dobot,finalPosYellow, Yellow, 50);
 
 %% Collision Detection
 
-% Create Wall of detection
+% Create Wall of Detection around the table
 hold on;
-[Y,Z] = meshgrid(-1:0.01:1,0.1:0.01:1.5);
-sizeMat = size(Y);
-X = repmat(1,sizeMat(1),sizeMat(2));
-%oneSideOfCube_h = surf(X,Y,Z);
-cubePoints = [X(:),Y(:),Z(:)];
-
-cubePoints = [ cubePoints ...
-             ; cubePoints * rotz(pi/2)...
-             ; cubePoints * rotz(pi) ...
-             ; cubePoints * rotz(3*pi/2)]; 
-centerPoint = [-1 0 0.7];
-radii = [0.1 0.1 0.1];
-algeDis = GetAlgebraicDist(cubePoints, [-1,0,0.7], [0.1,0.1,0.1]);
-pointsInside = find(algeDis<1);
-[X,Y,Z] = ellipsoid( centerPoint(1), centerPoint(2), centerPoint(3), radii(1),radii(2), radii(3));
-display(num2str(size(pointsInside,1)));
+% Placing Obstacle
+Obstacle = Obstacle(transl(-2,0,1.5));
+centerPoint = Obstacle.ObstaclePose(1:3,4);
+Movements.rmrcObj(dobot, finalPosRed,Obstacle, centerPoint, [-1, 0, 1.5], 50);
 
 %% Return to Original Position =========================================================================
 % q1 = dobot.model.getpos;
@@ -115,8 +103,3 @@ display(num2str(size(pointsInside,1)));
 %     drawnow();
 % end
 %%
-function algebraicDist = GetAlgebraicDist(points, centerPoint, radii)
-algebraicDist = ((points(:,1)-centerPoint(1))/radii(1)).^2 ...
-              + ((points(:,2)-centerPoint(2))/radii(2)).^2 ...
-              + ((points(:,3)-centerPoint(3))/radii(3)).^2;
-end
