@@ -1,4 +1,4 @@
-classdef Movements < handle
+classdef Movements_realDobot < handle
     properties
     end
     methods(Static)%Class use static methods
@@ -48,10 +48,10 @@ classdef Movements < handle
             pause(2);
         end
         %% Turn on/off suction cup
-        function toolOnOff(mode)
+        function toolOnOff(robot, mode)
             onOff = mode;
             openClose = mode;
-            dobot.PublishToolState(onOff,openClose);
+            robot.PublishToolState(onOff,openClose);
         end
     end
 end

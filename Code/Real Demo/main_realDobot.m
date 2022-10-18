@@ -42,13 +42,13 @@ for i = 1:1:3
     Movements_realDobot.move(qMatrix);
     Movements_realDobot.move(qMatrix1);
 
-    Movements_realDobot.toolOnOff(1);
+    Movements_realDobot.toolOnOff(dobot, 1);
 
     Movements_realDobot.move(qMatrix);
     Movements_realDobot.move(qMatrix2);
     Movements_realDobot.move(qMatrix3);
 
-    Movements_realDobot.toolOnOff(0);
+    Movements_realDobot.toolOnOff(dobot,0);
 
     Movements_realDobot.move(qMatrix4);
    
