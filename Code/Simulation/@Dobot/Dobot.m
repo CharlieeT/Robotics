@@ -67,7 +67,7 @@ function PlotAndColourRobot(self)%robot,workspace)
     if isempty(findobj(get(gca,'Children'),'Type','Light'))
         camlight
     end  
-    self.model.delay = 0.0;
+    self.model.delay = 0;
 
     % Try to correctly colour the arm (if colours are in ply file data)
     for linkIndex = 0:self.model.n
