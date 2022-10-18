@@ -20,15 +20,17 @@ PlaceObject("table.ply",[0,0,0]);
 
 % % Load Boxes ----------------------------------------------------------------------------------------
 disp('Loading Boxes.... ');
-PlaceObject("Redbox.ply",[0,0,0]);
-PlaceObject("Yellowbox.ply",[0.15,0,0]);
+PlaceObject("Redbox.ply",[-0.05,-0.01,0]);
+PlaceObject("Yellowbox.ply",[0.10,-0.01,0]);
+PlaceObject("Brownbox.ply",[0.01,-0.01,0]);
 
 % Load Blocks --------------------------------------------------------------------------------------
 
 % Original ----------------------------------------------------
 disp('Loading Condiments.... ');
-Red = RedCondiment(transl(0.05,-0.22,0.75));
-Yellow = YellowCondiment(transl(0.13,-0.22,0.75));
+Red = RedCondiment(transl(0.005,-0.22,0.75));
+Yellow = YellowCondiment(transl(0.085,-0.22,0.75));
+Brown = BrownCondiment(transl(-0.075,-0.22,0.75));
 Bowl = Bowl(transl(0.25,0,0.78));
 % -------------------------------------------------------------
 
@@ -102,4 +104,17 @@ Movements.rmrcObj(dobot, finalPosRed,Obstacle, centerPoint, [-1, 0, 1.5], 50);
 %     dobot.model.animate(qMatrix4(i,:));
 %     drawnow();
 % end
-%%
+
+
+
+
+
+% %% algebraicDist
+% function algebraicDist = GetAlgebraicDist(points, centerPoint, radii)
+% 
+% algebraicDist = ((points(:,1)-centerPoint(1))/radii(1)).^2 ...
+%               + ((points(:,2)-centerPoint(2))/radii(2)).^2 ...
+%               + ((points(:,3)-centerPoint(3))/radii(3)).^2;
+% end
+% 
+
