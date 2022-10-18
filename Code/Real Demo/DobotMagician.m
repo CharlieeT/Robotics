@@ -22,7 +22,7 @@ classdef DobotMagician < handle
        safetyStateMsg;
        
        railStatusPub;
-       railStatusMsg;
+       railStatusMsg;  
        
        railPosPub;
        railPosMsg;
