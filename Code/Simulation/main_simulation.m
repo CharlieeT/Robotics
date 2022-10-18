@@ -37,8 +37,8 @@ hold off
 
 % Load Dobot ----------------------------------------------------------------------------------------
 disp('Loading Robot.... ');
-dobot = Dobot;
-qInitial = dobot.model.getpos;
+dobot = DobotM();
+qInitial = dobot.q;
 
 % Load xArm5 ----------------------------------------------------------------------------------------
 xarm = xArm5;

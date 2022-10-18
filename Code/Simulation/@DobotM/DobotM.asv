@@ -3,7 +3,7 @@
 % sID: 13336209
 % 20/09/2022   (Good)!
 
-classdef Dobot < handle
+classdef DobotM < handle
     properties
         %> robot model
         model;
@@ -18,7 +18,7 @@ classdef Dobot < handle
     end
     
     methods                      %% Class for Dobot simulation
-function self = Dobot
+function self = DobotM()
     self.GetDobot();
     self.PlotAndColourRobot();
 %     self.PlotLimits();
@@ -53,7 +53,7 @@ end
 
 function PlotAndColourRobot(self)%robot,workspace)
     for linkIndex = 0:self.model.n
-        [ faceData, vertexData, plyData{linkIndex+1} ] = plyread(['DobotLink',num2str(linkIndex),'.ply'],'tri'); %#ok<AGROW>
+        [ faceData, vertexData, plyData{linkIndex+1} ] = plyread(['DobotL',num2str(linkIndex),'.ply'],'tri'); %#ok<AGROW>
         self.model.faces{linkIndex+1} = faceData;
         self.model.points{linkIndex+1} = vertexData;
     end
