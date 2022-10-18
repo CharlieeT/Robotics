@@ -1,4 +1,4 @@
-classdef xArm5 < handle
+classdef xArm5-justin < handle
     %% DobotMagician
     % This class is based on the DobotMagician. 
     % URL: https://en.dobot.cn/products/education/magician.html
@@ -18,7 +18,7 @@ classdef xArm5 < handle
 
     methods (Access = public) 
 %% Define robot Function  
-        function self = xArm5
+function self = xArm5-justin
             self.CreateModel();            
             %self.PlotAndColourRobot(self);            
             %self.model.animate(self.RealQToModelQ(self.defaultRealQ))
