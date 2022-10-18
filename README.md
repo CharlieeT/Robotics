@@ -24,7 +24,7 @@ The project aims to integrate a plausible application and collaboration of the t
 ### Running the DOBOT Magician using Ubuntu 18.04 and ROS Melodic
 1. [Install](http://wiki.ros.org/melodic/Installation/Ubuntu) ROS Melodic and setup a catkin workspace using the tutorial [here](http://wiki.ros.org/catkin/Tutorials/create_a_workspace)
 2. Download the required DOBOT Magician packages, refer to the guide [here](https://github.com/gapaul/dobot_magician_driver/wiki/Instructions-For-Native-Linux)
-3. Git clone the repository unto your linux system
+3. Git clone the repository onto your linux system
 ```sh
 git clone https://github.com/CharlieeT/Robotics.git
 ```
