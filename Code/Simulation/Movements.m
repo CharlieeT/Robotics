@@ -71,7 +71,7 @@ classdef Movements < handle
             end
         end
         %% Movement using RMRC with obstacle
-        function rmrcObj(robot, finalPos, obj,objStart, objEnd, steps)
+        function rmrcObj(robot, finalPos, obj,objStart, objEnd, cond, steps)
             points = Collision.createWall();
             radii = [0.1 0.1 0.1];
             deltaT = 0.05;                                        % Discrete time step
@@ -91,24 +91,32 @@ classdef Movements < handle
             q0 = robot.model.getpos;
             T = robot.model.fkine(q0);
             qMatrix1(1,:) = robot.model.ikcon(T,q0);                 % Solve for joint angles
-
+            z = 0;
             for i = 1:steps-1
-                xdot = (x(:,i+1) - x(:,i))/deltaT;                             % Calculate velocity at discrete time step
-                J = robot.model.jacob0(qMatrix1(i,:));            % Get the Jacobian at the current state
+                xdot = (x(:,i-z+1) - x(:,i-z))/deltaT;                             % Calculate velocity at discrete time step
+                J = robot.model.jacob0(qMatrix1(i-z,:));            % Get the Jacobian at the current state
                 J = J(1:5,1:5);
                 qdot = inv(J)*xdot;                             % Solve velocitities via RMRC
-                qMatrix1(i+1,:) =  qMatrix1(i,:) + deltaT*qdot';      % Update next joint state
-                robot.model.animate(qMatrix1(i,:));
+                qMatrix1(i-z+1,:) =  qMatrix1(i-z,:) + deltaT*qdot';      % Update next joint state
+                
                 newPose1 = [1 0 0 objStart(1)+(i*(objEnd(1)-objStart(1))/50); 0 1 0 objStart(2)+(i*(objEnd(2)-objStart(2))/50); 0 0 1 objStart(3)+(i*(objEnd(3)-objStart(3))/50); 0 0 0 1];
                 obj.move(newPose1);
-                Collision.isCollision(points, newPose1, radii);
+                newPose2 = robot.model.fkine(qMatrix1(i-z,:));
+                cond.move(newPose2);
+                centerPoint = obj.ObstaclePose(1:3,4);
+                if Collision.isCollision(points, centerPoint, radii) == 1
+                    disp("Object Detected at light curtain, stopping movements");
+                    z = z+1;
+                else 
+                    robot.model.animate(qMatrix1(i-z,:));
+                end
                 drawnow();
             end
-
-            for i = 1:49
-                robot.model.animate(qMatrix1(50-i,:));
-                drawnow();
-            end
+% 
+%             for i = 1:49
+%                 robot.model.animate(qMatrix1(50-i,:));
+%                 drawnow();
+%             end
         end
         %% Movement funtions by use inverse kinematics
         function moveikine(bot,T,steps)

@@ -28,21 +28,25 @@ classdef Collision < handle
             
             wallPoints = [ wallPoints; wallPoints * rotz(pi/2)...
                 ; wallPoints * rotz(pi); wallPoints * rotz(3*pi/2)];
-            cubeAtOigin_h = plot3(wallPoints(:,1),wallPoints(:,2),wallPoints(:,3),'r.');
+            %cubeAtOigin_h = plot3(wallPoints(:,1),wallPoints(:,2),wallPoints(:,3),'r.');
         end
         %% Check for collision
-        function isCollision(wallPoints, objectCenter, objectRadii)
+        function collision = isCollision(wallPoints, objectCenter, objectRadii)
             algebraicDist = GetAlgebraicDist(wallPoints, objectCenter, objectRadii);
             pointsInside = find(algebraicDist<=1);
             if (pointsInside > 0)
-                disp('Object Detected');
+                collision = 1;
+            else
+                collision = 0;
             end
-        end
-        %% Get algebraic distance
-        function algebraicDist = GetAlgebraicDist(points, centerPoint, radii)
+            
+            function algebraicDist = GetAlgebraicDist(points, centerPoint, radii)
             algebraicDist = ((points(:,1)-centerPoint(1))/radii(1)).^2 ...
                 + ((points(:,2)-centerPoint(2))/radii(2)).^2 ...
                 + ((points(:,3)-centerPoint(3))/radii(3)).^2;
+            end
         end
+        %% Get algebraic distance
+        
     end
 end
