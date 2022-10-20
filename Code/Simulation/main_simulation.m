@@ -89,9 +89,10 @@ finalPosRed = [0.25, 0, 0.8];
 % Create Wall of Detection around the table
 hold on;
 % Placing Obstacle
-Obstacle = Obstacle(transl(-2,0,1.5));
+Obstacle = Obstacle(transl(-2,0,1.3));
 centerPoint = Obstacle.ObstaclePose(1:3,4);
-Movements.rmrcObj(dobot, finalPosRed,Obstacle, centerPoint, [-1, 0, 1.5], 50);
+axis equal;
+Movements.rmrcObj(dobot, finalPosRed,Obstacle, centerPoint, [-0.8, 0, 1.5],Red, 50);
 
 %% Joystick Control
 % setup joystick
