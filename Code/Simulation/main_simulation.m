@@ -16,7 +16,11 @@ surf([-2.6,-2.6; 2.6, 2.6],[-2.6, 2.6;-2.6, 2.6],[0.0,0.01;0.0,0.01],'CData',imr
 
 % Load Table ------------------------------------------------------------------------------------------
 disp('Loading Table.... ');
-PlaceObject("table.ply",[0,0,0]);
+PlaceObject("table-small.ply",[0,0,0]);
+PlaceObject("Cafe-Enviro-new.ply",[0,0,0]);
+% PlaceObject("Screen-and-Estop.ply",[0,0,0]);
+PlaceObject("Estop.ply",[0,0,0]);
+
 
 % % Load Boxes ----------------------------------------------------------------------------------------
 disp('Loading Boxes.... ');
@@ -43,7 +47,7 @@ dobot = DobotM();
 qInitial = dobot.q;
 
 % Load xArm5 ----------------------------------------------------------------------------------------
-% xarm = xArm5;
+xarm = xArm5;
 
 
 view([160, 28]);   % Changing the camera angle 
