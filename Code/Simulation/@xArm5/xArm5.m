@@ -40,6 +40,13 @@ end
 %             L3.offset =  2.7331843;
 %             L4.offset = -1.3482664;
 
+%             L1 = Link('d',0,       'a',0,      'alpha',-pi/2);      % Base         % d: height offset, a: x horizontal offset, alpha: rotation x axis
+%             L2 = Link('d',0,       'a',0,      'alpha',0);      % 
+%             L3 = Link('d',0,       'a',0,      'alpha',0);      % 
+%             L4 = Link('d',0,       'a',0,      'alpha',-pi/2);      % 
+%             L5 = Link('d',0.097,   'a',0,      'alpha',0);      % 
+
+
             L1 = Link('d',0.267,    'a',0,      'alpha',-pi/2,  'offset',0, 'qlim',[deg2rad(-360),deg2rad(360)]);
             L2 = Link('d',0,        'a',0.28948866,  'alpha',0,      'offset',-1.3849179, 'qlim',[deg2rad(-118),deg2rad(120)]);
             L3 = Link('d',0,        'a',0.351158796,  'alpha',0,      'offset',2.7331843, 'qlim',[deg2rad(-225),deg2rad(11)]);
