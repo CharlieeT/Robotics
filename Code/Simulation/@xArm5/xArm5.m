@@ -46,7 +46,7 @@ end
                 
             % Display robot
             self.model.plot3d(zeros(1,self.model.n),'noarrow','workspace',self.workspace);
-            self.model.teach();
+            %self.model.teach();
             if isempty(findobj(get(gca,'Children'),'Type','Light'))
                 camlight
             end  
