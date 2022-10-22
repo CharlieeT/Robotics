@@ -9,7 +9,7 @@ classdef xArm5 < handle
         model;
         
         %> workspace
-        workspace = [-2.1 2.1 -2.1 2.1 0.0 2];    % Good for Demo 
+        workspace = [-2.5 2.5 -2.5 2.5 0.0 2];    % Good for Demo 
         q = [0 0 0 -pi/2 0] 
     end
     

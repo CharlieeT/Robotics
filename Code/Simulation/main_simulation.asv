@@ -1,0 +1,193 @@
+%% Clear all ==============================================================
+clc
+clear all;
+close all;
+set(0, 'DefaultFigureWindowStyle', 'docked');
+
+%% Enviroment =============================================================
+
+disp('Creating Environment, Please Wait -------- ');
+hold on
+
+% axis equal;
+
+% Load Texture Image for the Ground  ------------------------------------------------------------------
+surf([-2.6,-2.6; 2.6, 2.6],[-2.6, 2.6;-2.6, 2.6],[0.0,0.01;0.0,0.01],'CData',imread('Floor.jpg'),'FaceColor','texturemap');
+
+% Load Table ------------------------------------------------------------------------------------------
+disp('Loading Scenes.... ');
+PlaceObject("table-small.ply",[0,0,0]);
+PlaceObject("Cafe-Enviro-new.ply",[0,0,0]);
+% PlaceObject("Screen-and-Estop.ply",[0,0,0]);
+PlaceObject("Estop.ply",[0,0,0]);
+PlaceObject("FireEx.ply",[-0.5,1.5,0]);
+    
+
+% % Load Boxes ----------------------------------------------------------------------------------------
+disp('Loading Boxes.... ');
+PlaceObject("Redbox.ply",[-0.05,-0.01,0]);
+PlaceObject("Yellowbox.ply",[0.10,-0.01,0]);
+PlaceObject("Brownbox.ply",[0.01,-0.01,0]);
+
+
+%% Loading Sauce & Bowl ----------------------------------------------------
+disp('Loading Condiments & Bowl.... ');
+Red = RedCondiment(transl(0.005,-0.22,0.75));
+% Red{2} = RedCondiment(transl(0.005,-0.22,0.77));
+% Red{1} = RedCondiment(transl(0.005,-0.22,0.79));
+Yellow = YellowCondiment(transl(0.085,-0.22,0.75));
+% Yellow{2} = YellowCondiment(transl(0.085,-0.22,0.77));
+% Yellow{1} = YellowCondiment(transl(0.085,-0.22,0.79));
+Brown = BrownCondiment(transl(-0.075,-0.22,0.75));
+% Brown{2} = BrownCondiment(transl(-0.075,-0.22,0.77));
+% Brown{1} = BrownCondiment(transl(-0.075,-0.22,0.79));
+Bowl = Bowl(transl(0.25,0,0.78));
+Obstacle = Obstacle(transl(0,-0.25,1.3));
+
+hold off
+
+%% Loading Robots ----------------------------------------------------------------------------------------
+disp('Loading Robots.... ');
+dobot = DobotM();
+qInitial = dobot.q;
+
+xarm = xArm5;
+
+view([-130, 27]);   % Changing the camera angle 
+input('Done Loading Environment! Press Enter to Start')
+
+
+%% Contorl of Robot ======================================================= 
+
+% Moving 1
+T1 = dobot.model.fkine(qInitial);
+T2 = transl(T1(1:3,4))*transl(0,0,0.2);
+
+steps = 20;         % Dont do below 20
+
+Movements.moveikcon(dobot,T2,steps,Obstacle);
+
+Movements.moveikcon(dobot,Red.RedCondimentPose,steps,Obstacle);
+
+move1 = transl(0.05,-0.22,0.95);
+
+Movements.moveobji(dobot,move1,Red,steps,Obstacle);
+% Resolved Motion Rate Control 1
+finalPosRed = [0.25, 0, 0.8];
+
+Movements.rmrc(dobot,finalPosRed, Red, steps, Obstacle);
+
+% Moving 2
+ 
+Movements.moveikcon(dobot,Yellow.YellowCondimentPose,steps,Obstacle);
+
+move2 = transl(0.13,-0.22,0.95);
+ 
+Movements.moveobji(dobot,move2,Yellow,steps,Obstacle);
+ 
+%Resolved Motion Rate Control 2
+ 
+finalPosYellow = [0.25, 0, 0.83];
+ 
+Movements.rmrc(dobot,finalPosYellow, Yellow, steps,Obstacle);
+
+% Moving 3
+brownI = [-1.9199    0.9436    0.9928   -0.3657    1.4835];
+Movements.moveikcon(dobot,dobot.model.fkine(brownI),steps,Obstacle);
+
+move3 = transl(-0.075,-0.22,0.95);
+ 
+Movements.moveobji(dobot,move3,Brown,steps,Obstacle);
+ 
+%Resolved Motion Rate Control 2
+ 
+finalPosBrown = [0.25, 0, 0.86];
+ 
+Movements.rmrc(dobot,finalPosBrown, Brown, steps,Obstacle);
+
+% Go to finish position;
+
+finishQ = deg2rad([-90 5 90 0 0]);
+
+Movements.moveikcon(dobot, dobot.model.fkine(finishQ), steps,Obstacle);
+
+%% xArm5 Movement
+bowlpose = deg2rad([-240, 55, -98, 40, 60]);
+
+Movements.moveikcon(xarm,xarm.model.fkine(bowlpose),steps, Obstacle);
+
+finalPosBowl = [1.2, -0.75, 0.9];
+
+Movements.rmrc2(xarm,finalPosBowl, Bowl,Red, Yellow, Brown, steps);
+
+input("Operation Completed! Press Enter to Exit Program...");
+%% Collision Detection
+
+% % Create Wall of Detection around the table
+% hold on;
+% % Placing Obstacle
+% Obstacle = Obstacle(transl(-2,0,1.3));
+% centerPoint = Obstacle.ObstaclePose(1:3,4);
+% axis equal;
+% Movements.rmrcObj(dobot, finalPosRed,Obstacle, centerPoint, [-0.8, 0, 1.5],Red, steps);
+
+%% Joystick Control
+% % setup joystick
+% id = 6; % Note: may need to be changed if multiple joysticks present
+% joy = vrjoystick(id);
+% caps(joy) % display joystick information
+% 
+% % start control
+% q = dobot.q;                 % Set initial robot configuration 'q'
+% 
+% HF = figure(1);         % Initialise figure to display robot
+% 
+% set(HF,'Position',[0.1 0.1 0.8 0.8]);
+% 
+% duration = 300;  % Set duration of the simulation (seconds)
+% dt = 0.15;      % Set time step for simulation (seconds)
+% 
+% n = 0;  % Initialise step count to zero 
+% tic;    % recording simulation start time
+% while( toc < duration)
+%     
+%     n=n+1; % increment step count
+% 
+%     % read joystick
+%     [axes, buttons, povs] = read(joy);
+%        
+%     Kv = 0.3; % linear velocity gain
+%     Kw = 0.8; % angular velocity gain
+%     
+%     vx = Kv*axes(1);
+%     vy = Kv*axes(2);
+%     vz = Kv*(buttons(5)-buttons(7));
+%     
+%     wx = Kw*axes(4);
+%     wy = Kw*axes(3);
+%     wz = Kw*(buttons(6)-buttons(8));
+%     
+%     dx = [vx;vy;vz;wx;wy;wz]; % combined velocity vector
+%     
+%     % 2 - use DLS J inverse to calculate joint velocity
+%     lambda = 0.5;
+%     J = dobot.model.jacob0(q);
+%     Jinv_dls = inv((J'*J)+lambda^2*eye(5))*J';
+%     dq = Jinv_dls*dx;
+%     
+%     % 3 - apply joint velocity to step robot joint angles 
+%     q = q + dq'*dt;
+%       
+%     % -------------------------------------------------------------
+%     
+%     % Update plot
+%     dobot.model.animate(q);  
+%     drawnow();
+%     % wait until loop time elapsed
+%     if (toc > dt*n)
+%         warning('Loop %i took too much time - consider increating dt',n);
+%     end
+%     while (toc < dt*n); % wait until loop time (dt) has elapsed 
+%     end
+% end 
+%%
