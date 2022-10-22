@@ -10,7 +10,7 @@ classdef xArm5 < handle
         
         %> workspace
         workspace = [-2.1 2.1 -2.1 2.1 0.0 2];    % Good for Demo 
-      
+        q = [0 0 0 -pi/2 0] 
     end
     
     methods%% Class for xArm5 robot simulation
@@ -45,7 +45,9 @@ end
             end
                 
             % Display robot
-            self.model.plot3d(zeros(1,self.model.n),'noarrow','workspace',self.workspace);
+%           self.model.plot3d(zeros(1,self.model.n),'noarrow','workspace',self.workspace);
+            self.model.plot3d(self.q,'noarrow','workspace',self.workspace);
+
             %self.model.teach();
             if isempty(findobj(get(gca,'Children'),'Type','Light'))
                 camlight
