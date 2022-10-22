@@ -5,7 +5,11 @@ classdef Movements < handle
         function self = Movements()
         end
         %% Movement funtions by use inverse kinematics
-        function moveikcon(robot,T,steps)
+        function moveikcon(robot,T,steps,Obstacle)
+            points = Collision.createWall2();
+            radii = [0.1 0.1 0.1];
+            id = 5; % Note: may need to be changed if multiple joysticks present
+            joy = vrjoystick(id);
             q1 = robot.model.getpos;
             q2 = robot.model.ikcon(T,q1);
             s = lspb(0,1,steps);
@@ -14,12 +18,58 @@ classdef Movements < handle
             for i = 1:steps
                 qMatrix(i,:) = (1-s(i))*q1 + s(i)*q2;
                 animate(robot.model,qMatrix(i,:));
+                joystick1(Obstacle, joy);
+                centerPoint = Obstacle.ObstaclePose(1:3,4);
+                if Collision.isCollision(points, centerPoint, radii) == 1
+                    disp("Object Detected");
+                end
                 drawnow();
             end
+            function joystick1(Obstacle, joy)
+
+            [axes, buttons, povs] = read(joy);
+            if double(buttons(1)) == 1
+                Obstacle.ObstaclePose(3,4) = Obstacle.ObstaclePose(3,4)-0.01;
+                down = Obstacle.ObstaclePose;
+                Obstacle.move(down);
+                drawnow();
+            elseif double(buttons(2)) == 1
+                Obstacle.ObstaclePose(2,4) = Obstacle.ObstaclePose(2,4)-0.01;
+                right = Obstacle.ObstaclePose;
+                Obstacle.move(right);
+                drawnow();
+            elseif double(buttons(3)) == 1
+                Obstacle.ObstaclePose(2,4) = Obstacle.ObstaclePose(2,4)+0.01;
+                left = Obstacle.ObstaclePose;
+                Obstacle.move(left);
+                drawnow();
+            elseif double(buttons(4)) == 1
+                Obstacle.ObstaclePose(3,4) = Obstacle.ObstaclePose(3,4)+0.01;
+                up = Obstacle.ObstaclePose;
+                Obstacle.move(up);
+                drawnow();
+            elseif double(buttons(5)) == 1
+                Obstacle.ObstaclePose(1,4) = Obstacle.ObstaclePose(1,4)-0.01;
+                forward = Obstacle.ObstaclePose;
+                Obstacle.move(forward);
+                drawnow();
+            elseif double(buttons(6)) == 1
+                Obstacle.ObstaclePose(1,4) = Obstacle.ObstaclePose(1,4)+0.01;
+                backward = Obstacle.ObstaclePose;
+                Obstacle.move(backward);
+                drawnow();
+            end
+
+            pause(0.05);
+        end
         end
         %% Movement objects and robot using inverse kinematics
-        function moveobji(robot,T,obj,steps)
+        function moveobji(robot,T,obj,steps, Obstacle)
+            points = Collision.createWall2();
+            radii = [0.1 0.1 0.1];
             % Get vertex count
+            id = 5; % Note: may need to be changed if multiple joysticks present
+            joy = vrjoystick(id);
             q1 = robot.model.getpos();
             q2 = robot.model.ikcon(T,q1);
             s = lspb(0,1,steps);
@@ -29,12 +79,58 @@ classdef Movements < handle
                 qMatrix(i,:) = (1-s(i))*q1 + s(i)*q2;
                 animate(robot.model,qMatrix(i,:));
                 newPose = robot.model.fkine(qMatrix(i,:));
-                obj.move(newPose);  
+                obj.move(newPose); 
+                joystick1(Obstacle, joy);
+                centerPoint = Obstacle.ObstaclePose(1:3,4);
+                if Collision.isCollision(points, centerPoint, radii) == 1
+                    disp("Object Detected");
+                end
                 drawnow();
             end
+            function joystick1(Obstacle, joy)
+
+            [axes, buttons, povs] = read(joy);
+            if double(buttons(1)) == 1
+                Obstacle.ObstaclePose(3,4) = Obstacle.ObstaclePose(3,4)-0.01;
+                down = Obstacle.ObstaclePose;
+                Obstacle.move(down);
+                drawnow();
+            elseif double(buttons(2)) == 1
+                Obstacle.ObstaclePose(2,4) = Obstacle.ObstaclePose(2,4)-0.01;
+                right = Obstacle.ObstaclePose;
+                Obstacle.move(right);
+                drawnow();
+            elseif double(buttons(3)) == 1
+                Obstacle.ObstaclePose(2,4) = Obstacle.ObstaclePose(2,4)+0.01;
+                left = Obstacle.ObstaclePose;
+                Obstacle.move(left);
+                drawnow();
+            elseif double(buttons(4)) == 1
+                Obstacle.ObstaclePose(3,4) = Obstacle.ObstaclePose(3,4)+0.01;
+                up = Obstacle.ObstaclePose;
+                Obstacle.move(up);
+                drawnow();
+            elseif double(buttons(5)) == 1
+                Obstacle.ObstaclePose(1,4) = Obstacle.ObstaclePose(1,4)-0.01;
+                forward = Obstacle.ObstaclePose;
+                Obstacle.move(forward);
+                drawnow();
+            elseif double(buttons(6)) == 1
+                Obstacle.ObstaclePose(1,4) = Obstacle.ObstaclePose(1,4)+0.01;
+                backward = Obstacle.ObstaclePose;
+                Obstacle.move(backward);
+                drawnow();
+            end
+
+            pause(0.05);
+        end
         end
         %% Resolve Motion Rate Control
-        function rmrc(robot, finalPos, obj, steps)
+        function rmrc(robot, finalPos, obj, steps, Obstacle)
+            points = Collision.createWall2();
+            radii = [0.1 0.1 0.1];
+            id = 5;
+            joy = vrjoystick(id);
             deltaT = 0.05;                                        % Discrete time step
             x = zeros(3,50);
             s = lspb(0,1,50);                                 % Create interpolation scalar
@@ -62,13 +158,60 @@ classdef Movements < handle
                 robot.model.animate(qMatrix1(i,:));
                 newPose1 = robot.model.fkine(qMatrix1(i,:));
                 obj.move(newPose1);
+                joystick1(Obstacle,joy);
+                centerPoint = Obstacle.ObstaclePose(1:3,4);
+                if Collision.isCollision(points, centerPoint, radii) == 1
+                    disp("Object Detected");
+                end
                 drawnow();
             end
 
             for i = 1:49
                 robot.model.animate(qMatrix1(50-i,:));
+                joystick1(Obstacle, joy);
+                points = Collision.createWall2();
+                centerPoint = Obstacle.ObstaclePose(1:3,4);
+                if Collision.isCollision(points, centerPoint, radii) == 1
+                    disp("Object Detected");
+                end
                 drawnow();
             end
+            function joystick1(Obstacle, joy)
+            [axes, buttons, povs] = read(joy);
+            if double(buttons(1)) == 1
+                Obstacle.ObstaclePose(3,4) = Obstacle.ObstaclePose(3,4)-0.01;
+                down = Obstacle.ObstaclePose;
+                Obstacle.move(down);
+                drawnow();
+            elseif double(buttons(2)) == 1
+                Obstacle.ObstaclePose(2,4) = Obstacle.ObstaclePose(2,4)-0.01;
+                right = Obstacle.ObstaclePose;
+                Obstacle.move(right);
+                drawnow();
+            elseif double(buttons(3)) == 1
+                Obstacle.ObstaclePose(2,4) = Obstacle.ObstaclePose(2,4)+0.01;
+                left = Obstacle.ObstaclePose;
+                Obstacle.move(left);
+                drawnow();
+            elseif double(buttons(4)) == 1
+                Obstacle.ObstaclePose(3,4) = Obstacle.ObstaclePose(3,4)+0.01;
+                up = Obstacle.ObstaclePose;
+                Obstacle.move(up);
+                drawnow();
+            elseif double(buttons(5)) == 1
+                Obstacle.ObstaclePose(1,4) = Obstacle.ObstaclePose(1,4)-0.01;
+                forward = Obstacle.ObstaclePose;
+                Obstacle.move(forward);
+                drawnow();
+            elseif double(buttons(6)) == 1
+                Obstacle.ObstaclePose(1,4) = Obstacle.ObstaclePose(1,4)+0.01;
+                backward = Obstacle.ObstaclePose;
+                Obstacle.move(backward);
+                drawnow();
+            end
+
+            pause(0.05);
+        end
         end
         %% Movement using RMRC with obstacle
         function rmrcObj(robot, finalPos, obj,objStart, objEnd, cond, steps)
@@ -105,11 +248,12 @@ classdef Movements < handle
                 cond.move(newPose2);
                 centerPoint = obj.ObstaclePose(1:3,4);
                 if Collision.isCollision(points, centerPoint, radii) == 1
-                    disp("Object Detected at light curtain, stopping movements");
+                    disp("Object Detected");
                     z = z+1;
                 else 
                     robot.model.animate(qMatrix1(i-z,:));
                 end
+                joystick1(obstacle);
                 drawnow();
             end
 % 
@@ -208,54 +352,5 @@ classdef Movements < handle
 %                 drawnow();
 %             end
         end
-        %% Movement funtions by use forward kinematics with object
-        function moveobjf(bot,q2,objname,x,y,z,steps)
-            % Get vertex count
-            VertexCount = size(objname.vertexData,1);
-            q1 = bot.mdl.getpos();
-
-            s = lspb(0,1,steps);
-            qM = nan(steps,5);
-            %Calculate trajectory using Trapezoidal methods
-            for i = 1:steps
-                qM(i,:) = (1-s(i))*q1 + s(i)*q2;
-                loc = eye(4);
-                tr = bot.mdl.fkine(qM(i,:));
-                delete(objname.obj);
-                objname.obj=trisurf(objname.faceData,objname.vertexData(:,1),objname.vertexData(:,2),objname.vertexData(:,3));
-                objtr = makehgtform('translate',[tr(1,4),tr(2,4),tr(3,4)]);
-%               objrotz = makehgtform('zrotate',rad2deg(acot(tr(1,1)));
-                objrotx = makehgtform('xrotate',deg2rad(x));
-                objroty = makehgtform('yrotate',deg2rad(y));
-                objrotz = makehgtform('zrotate',deg2rad(z));
-                loc = loc * objtr * objrotx * objroty * objrotz;
-                newpoint = [loc * [objname.vertexData,ones(VertexCount,1)]']';
-                objname.obj.Vertices = newpoint(:,1:3);
-                
-                animate(bot.mdl,qM(i,:));
-                
-                drawnow();
-            end
-        end
-        %% Movement funtions by use inverse kinematics with object
-%                 function rotobj(objname,x,y,z)
-%                 % Get vertex count
-%                 VertexCount = size(objname.vertexData,1);
-%                 
-% 
-%                 delete(objname.obj);
-% %                 loc = eye(4);
-%                 objname.obj=trisurf(objname.faceData,objname.vertexData(:,1),objname.vertexData(:,2),objname.vertexData(:,3));
-% %                 objtr = makehgtform('translate',[tr(1,4),tr(2,4),tr(3,4)]);
-%                 objrotx = makehgtform('xrotate',deg2rad(x));
-%                 objroty = makehgtform('yrotate',deg2rad(y));
-%                 objrotz = makehgtform('zrotate',deg2rad(z));
-%                 loc = loc * objrotx * objroty * objrotz;
-%                 newpoint = [loc * [objname.vertexData,ones(VertexCount,1)]']';
-%                 objname.obj.Vertices = newpoint(:,1:3);
-%                 
-%                 
-%                 drawnow();
-%                 end
     end
 end

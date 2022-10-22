@@ -19,7 +19,7 @@ classdef Collision < handle
             end
             
         end
-        %% Create Epllisoid around robot for collision detection
+        %% Create Prism around robot for collision detection
         function wallPoints = createWall()
             [Y,Z] = meshgrid(-1:0.01:1,0.1:0.01:1.5);
             sizeMat = size(Y);
@@ -28,6 +28,21 @@ classdef Collision < handle
             
             wallPoints = [ wallPoints; wallPoints * rotz(pi/2)...
                 ; wallPoints * rotz(pi); wallPoints * rotz(3*pi/2)];
+            %cubeAtOigin_h = plot3(wallPoints(:,1),wallPoints(:,2),wallPoints(:,3),'r.');
+        end
+        %% Create Prism around robot work area for collision detection
+        function wallPoints = createWall2()
+            [Y,Z] = meshgrid(-0.2:0.01:0.2,0.6:0.01:1);
+            sizeMat = size(Y);
+            X = repmat(0.2,sizeMat(1),sizeMat(2));
+            wallPoints = [X(:),Y(:),Z(:)];
+            x(1:1681,1) = -0.8;
+            y(1:1681,1) = 0;
+            z(1:1681,1) = -0.8;
+            z2(1:1681,1) = -0.4;
+            f = [x,y,z2];
+            g = [x,y,z];
+            wallPoints = [ wallPoints; wallPoints * rotz(pi/2); wallPoints * rotz(pi); wallPoints * rotz(3*pi/2);wallPoints*roty(pi/2)-f;wallPoints * roty(pi/2)-g;];
             %cubeAtOigin_h = plot3(wallPoints(:,1),wallPoints(:,2),wallPoints(:,3),'r.');
         end
         %% Check for collision

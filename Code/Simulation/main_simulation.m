@@ -33,9 +33,17 @@ PlaceObject("Brownbox.ply",[0.01,-0.01,0]);
 % Original ----------------------------------------------------
 disp('Loading Condiments.... ');
 Red = RedCondiment(transl(0.005,-0.22,0.75));
+% Red{2} = RedCondiment(transl(0.005,-0.22,0.77));
+% Red{1} = RedCondiment(transl(0.005,-0.22,0.79));
 Yellow = YellowCondiment(transl(0.085,-0.22,0.75));
+% Yellow{2} = YellowCondiment(transl(0.085,-0.22,0.77));
+% Yellow{1} = YellowCondiment(transl(0.085,-0.22,0.79));
 Brown = BrownCondiment(transl(-0.075,-0.22,0.75));
+% Brown{2} = BrownCondiment(transl(-0.075,-0.22,0.77));
+% Brown{1} = BrownCondiment(transl(-0.075,-0.22,0.79));
+disp('Loading Bowl.... ');
 Bowl = Bowl(transl(0.25,0,0.78));
+Obstacle = Obstacle(transl(0,-0.25,1.3));
 % -------------------------------------------------------------
 
 
@@ -51,67 +59,67 @@ xarm = xArm5;
 
 
 view([160, 28]);   % Changing the camera angle 
-hold off
 input('Done Loading Environment! Press Enter to Start')
 
 
 
 %% Contorl of Robot ======================================================= 
-set(gca,'XTick',[], 'YTick', [], 'ZTick', []);
 
 % Moving 1
 T1 = dobot.model.fkine(qInitial);
 T2 = transl(T1(1:3,4))*transl(0,0,0.2);
 
-Movements.moveikcon(dobot,T2,50);
-Movements.moveikcon(dobot,Red.RedCondimentPose,50);
+Movements.moveikcon(dobot,T2,50,Obstacle);
+
+
+Movements.moveikcon(dobot,Red.RedCondimentPose,50,Obstacle);
 
 move1 = transl(0.05,-0.22,0.95);
 
-Movements.moveobji(dobot,move1,Red,50);
+Movements.moveobji(dobot,move1,Red,50,Obstacle);
 % Resolved Motion Rate Control 1
 finalPosRed = [0.25, 0, 0.8];
 
-Movements.rmrc(dobot,finalPosRed, Red, 50);
+Movements.rmrc(dobot,finalPosRed, Red, 50, Obstacle);
 
 % Moving 2
  
-Movements.moveikcon(dobot,Yellow.YellowCondimentPose,50);
+Movements.moveikcon(dobot,Yellow.YellowCondimentPose,50,Obstacle);
 
 move2 = transl(0.13,-0.22,0.95);
  
-Movements.moveobji(dobot,move2,Yellow,50);
+Movements.moveobji(dobot,move2,Yellow,50,Obstacle);
  
 %Resolved Motion Rate Control 2
  
 finalPosYellow = [0.25, 0, 0.83];
  
-Movements.rmrc(dobot,finalPosYellow, Yellow, 50);
+Movements.rmrc(dobot,finalPosYellow, Yellow, 50,Obstacle);
 
 % Moving 3
 brownI = [-1.9199    0.9436    0.9928   -0.3657    1.4835];
-Movements.moveikcon(dobot,dobot.model.fkine(brownI),50);
+Movements.moveikcon(dobot,dobot.model.fkine(brownI),50,Obstacle);
 
 move3 = transl(-0.075,-0.22,0.95);
  
-Movements.moveobji(dobot,move3,Brown,50);
+Movements.moveobji(dobot,move3,Brown,50,Obstacle);
  
 %Resolved Motion Rate Control 2
  
 finalPosBrown = [0.25, 0, 0.86];
  
-Movements.rmrc(dobot,finalPosBrown, Brown, 50);
+Movements.rmrc(dobot,finalPosBrown, Brown, 50,Obstacle);
 
 % Go to finish position;
 
 finishQ = deg2rad([-90 5 90 0 0]);
 
-Movements.moveikcon(dobot, dobot.model.fkine(finishQ), 50);
+Movements.moveikcon(dobot, dobot.model.fkine(finishQ), 50,Obstacle);
 
 %% xArm5 Movement
 bowlpose = deg2rad([-240, 55, -98, 40, 60]);
 
-Movements.moveikcon(xarm,xarm.model.fkine(bowlpose),50);
+Movements.moveikcon(xarm,xarm.model.fkine(bowlpose),50, Obstacle);
 
 finalPosBowl = [1.2, -0.75, 0.9];
 
@@ -153,9 +161,6 @@ Movements.rmrc2(xarm,finalPosBowl, Bowl,Red, Yellow, Brown, 50);
 %     % read joystick
 %     [axes, buttons, povs] = read(joy);
 %        
-%     % -------------------------------------------------------------
-%     % YOUR CODE GOES HERE
-%     % 1 - turn joystick input into an end-effector velocity command
 %     Kv = 0.3; % linear velocity gain
 %     Kw = 0.8; % angular velocity gain
 %     
@@ -189,4 +194,5 @@ Movements.rmrc2(xarm,finalPosBowl, Bowl,Red, Yellow, Brown, 50);
 %     end
 %     while (toc < dt*n); % wait until loop time (dt) has elapsed 
 %     end
-% end
+% end 
+
