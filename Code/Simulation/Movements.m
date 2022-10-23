@@ -205,10 +205,6 @@ classdef Movements < handle
                 qMatrix1(i+1,:) =  qMatrix1(i,:) + deltaT*qdot';      % Update next joint state
                 robot.model.animate(qMatrix1(i,:));
                 newPose1 = robot.model.fkine(qMatrix1(i,:));
-%                 obj.move(  newPose1*trotx(pi)*transl(-0.03,0.03,-0.09));
-%                 cond1.move(newPose1*trotx(pi)*transl(-0.03,0.03,-0.08));
-%                 cond2.move(newPose1*trotx(pi)*transl(-0.03,0.03,-0.06));
-%                 cond3.move(newPose1*trotx(pi)*transl(-0.03,0.03,-0.04));
                   obj.move(  newPose1*trotx(pi)*transl(0.05,-0.10,-0.17));
                   cond1.move(newPose1*trotx(pi)*transl(0.05,-0.10,-0.16));
                   cond2.move(newPose1*trotx(pi)*transl(0.05,-0.10,-0.14));
@@ -251,7 +247,7 @@ classdef Movements < handle
                 qMatrix1(i+1,:) =  qMatrix1(i,:) + deltaT*qdot';      % Update next joint state
                 robot.model.animate(qMatrix1(i,:));
                 newPose1 = robot.model.fkine(qMatrix1(i,:));
-                  obj.move(  newPose1*trotx(pi)*transl(0,0,0));
+                  obj.move(  newPose1*trotx(pi)*transl(0,0,-0.12));
                 drawnow();
             end
         end

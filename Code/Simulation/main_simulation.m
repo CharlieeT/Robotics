@@ -26,6 +26,10 @@ PlaceObject("Estop.ply",[0,0,0]);
 PlaceObject("FireEx.ply",[-0.5,1.5,0]);
 PlaceObject("Laser-Curtain.ply",[0,0,0]);
 PlaceObject("Fences.ply",[0,0,0]);
+PlaceObject("WarningSign.ply",[0,0,0]);
+PlaceObject("Screen-and-Estop.ply", [0,0,0]);
+PlaceObject("First-aid-kit.ply", [0,0,0]);
+PlaceObject("Camera.ply", [0,0,0]);
 
 % % Load Boxes ----------------------------------------------------------------------------------------
 disp('Loading Boxes.... ');
@@ -129,24 +133,22 @@ bowlpose = deg2rad([120, 40.7, -90.9, 48.3, 270]);%, -0.8]);           % Bowl St
 
 Movements.moveikcon(xarm,xArmlinkNum,xarm.model.fkine(bowlpose),xarmSteps, Obstacle);
 
-finalPosBowl = [0.6, -1.25, 1.25]; % Top of Counter bar                % [1.2, -0.75, 0.9]
+finalPosBowl = [0.6, -1.25, 1.225]; % Top of Counter bar                % [1.2, -0.75, 0.9]
 
 Movements.rmrc2(xarm,xArmlinkNum,finalPosBowl,Bowl,Red,Yellow,Brown,xarmSteps);
 
 
-% Moving Coffee
-coffeepose = deg2rad([21.8,    16.6,    33.8,   22.2,    360]);
-Movements.moveikcon(xarm,xArmlinkNum,dobot.model.fkine(coffeepose),xarmSteps,Obstacle);
+%% Moving Coffee
+% coffeepose = deg2rad([21.8,    16.6,    33.8,   22.2,    360]);
+coffeepose = deg2rad([-158,    -65.6,    -211,   -72.1,    353]);         
+Movements.moveikcon(xarm,xArmlinkNum,xarm.model.fkine(coffeepose),xarmSteps, Obstacle);
 
-% movecoffee = transl(-0.075,-0.22,0.95);
-%  
-% Movements.moveobji(xarm,xArmlinkNum,movecoffee,Coffee,xarmSteps,Obstacle);
- 
-% Resolved Motion Rate Control 3
- 
-finalPosCoffee = [0.5, -1.25, 1.2];
- 
+finalPosCoffee = [0.5, -1.25, 1.16];
 Movements.rmrc3(xarm,xArmlinkNum,finalPosCoffee,Coffee,xarmSteps);
+%%
+% % Move back to original pose
+% xArmFinQ = deg2rad([0, 0, 0, -pi/2, 0] );         
+% Movements.moveikcon(xarm,xArmlinkNum,xarm.model.fkine(xArmFinQ),xarmSteps, Obstacle);
 
 input("Operation Completed! Press Enter to Exit Program...");
 
