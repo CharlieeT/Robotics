@@ -10,7 +10,7 @@ classdef DobotM < handle
 
         %> Set workspace size
      %  workspace = [-2.6 2.6 -2.6 2.6 0.0 2.0];
-        workspace = [-1.5 1.5 -1.5 1.5 0.0 2];    % Good for Demo
+        workspace = [-2.5 2.5 -2.5 2.5 0.0 2];    % Good for Demo
      %  workspace = [-1.0 1.0 -1.0 1.0 0.0 2];    % For showing Table only
        
         %> Set Robot's Default q 
