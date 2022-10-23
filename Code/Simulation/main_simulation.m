@@ -22,7 +22,7 @@ PlaceObject("Cafe-Enviro-new.ply",[0,0,0]);
 PlaceObject("Estop.ply",[0,0,0]);
 PlaceObject("FireEx.ply",[-0.5,1.5,0]);
 PlaceObject("Laser-Curtain.ply",[0,0,0]);
-
+PlaceObject("Fences.ply",[0,0,0]);
 
 % % Load Boxes ----------------------------------------------------------------------------------------
 disp('Loading Boxes.... ');
