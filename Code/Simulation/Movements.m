@@ -1,6 +1,6 @@
 classdef Movements < handle
     properties
-        id = 5;     % Change to 5 for Justin, charlie is 1
+        id = 1;     % Change to 5 for Justin, charlie is 1
         lightC = Collision.createWall();
         CollidB = Collision.createWall2();
     end
