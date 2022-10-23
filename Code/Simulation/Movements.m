@@ -25,9 +25,8 @@ classdef Movements < handle
                 animate(robot.model,qMatrix(i,:));
                 joystick1(Obstacle, joy);
                 centerPoint = Obstacle.ObstaclePose(1:3,4);
-                if Collision.isCollision(CollidB, centerPoint, radii)== 1 || Collision.isCollision(lightC, centerPoint, radii) == 1
-                    disp("Object Detected");
-                end
+                Collision.isCollision(CollidB, centerPoint, radii);
+                Collision.isCollision(lightC, centerPoint, radii);
                 drawnow();
             end
         end
@@ -52,9 +51,8 @@ classdef Movements < handle
                 obj.move(newPose); 
                 joystick1(Obstacle, joy);
                 centerPoint = Obstacle.ObstaclePose(1:3,4);
-                if Collision.isCollision(CollidB, centerPoint, radii)== 1 || Collision.isCollision(lightC, centerPoint, radii) == 1
-                    disp("Object Detected");
-                end
+                Collision.isCollision(CollidB, centerPoint, radii);
+                Collision.isCollision(lightC, centerPoint, radii);
                 drawnow();
             end
         end
@@ -95,9 +93,8 @@ classdef Movements < handle
                 obj.move(newPose1);
                 joystick1(Obstacle,joy);
                 centerPoint = Obstacle.ObstaclePose(1:3,4);
-                if Collision.isCollision(CollidB, centerPoint, radii)== 1 || Collision.isCollision(lightC, centerPoint, radii) == 1
-                    disp("Object Detected");
-                end
+                Collision.isCollision(CollidB, centerPoint, radii);
+                Collision.isCollision(lightC, centerPoint, radii);
                 drawnow();
             end
 
@@ -105,9 +102,8 @@ classdef Movements < handle
                 robot.model.animate(qMatrix1(steps-i,:));
                 joystick1(Obstacle, joy);
                 centerPoint = Obstacle.ObstaclePose(1:3,4);
-                if Collision.isCollision(CollidB, centerPoint, radii)== 1 || Collision.isCollision(lightC, centerPoint, radii) == 1
-                    disp("Object Detected");
-                end
+                Collision.isCollision(CollidB, centerPoint, radii);
+                Collision.isCollision(lightC, centerPoint, radii);
                 drawnow();
             end
         end
@@ -146,12 +142,9 @@ classdef Movements < handle
                 newPose2 = robot.model.fkine(qMatrix1(i-z,:));
                 cond.move(newPose2);
                 centerPoint = obj.ObstaclePose(1:3,4);
-                if Collision.isCollision(CollidB, centerPoint, radii)== 1 || Collision.isCollision(lightC, centerPoint, radii) == 1
-                    disp("Object Detected");
-                    z = z+1;
-                else 
-                    robot.model.animate(qMatrix1(i-z,:));
-                end
+                Collision.isCollision(CollidB, centerPoint, radii);
+                Collision.isCollision(lightC, centerPoint, radii);
+                robot.model.animate(qMatrix1(i-z,:));
                 joystick1(obstacle);
                 drawnow();
             end
