@@ -52,11 +52,12 @@ classdef Collision < handle
             if (pointsInside > 0)
                 disp("Object Detected!");
                 while (pointsInside > 0)
+                    objectCenter = Obstacle.ObstaclePose(1:3,4);
                     algebraicDist = GetAlgebraicDist(wallPoints, objectCenter, objectRadii);
                     pointsInside = find(algebraicDist<=1);
                     joystick1(Obstacle, joy);
                 end
-                Input("Object has been removed, press enter to continue");
+                input("Object has been removed, press enter to continue");
             end
             
             function algebraicDist = GetAlgebraicDist(points, centerPoint, radii)
