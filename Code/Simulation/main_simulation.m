@@ -114,8 +114,8 @@ Movements.moveikcon(dobot,dobotlinkNum, dobot.model.fkine(finishQ), steps,Obstac
 
 %% xArm5 Movement
 xarmSteps = 80;  % Dont do below 20
-xArmlinkNum = 5;               % debug: 6  if using the xarm5 with 6 link
-bowlpose = deg2rad([120, 40.7, -90.9, 48.3, 270]);%, -0.8]);           % Bowl Start Pose   [-240, 55, -98, 40, 60, 0]
+xArmlinkNum = 6;               % debug: 6  if using the xarm5 with 6 link
+bowlpose = deg2rad([120, 40.7, -90.9, 48.3, 270, -0.8]);           % Bowl Start Pose   [-240, 55, -98, 40, 60, 0]
 
 Movements.moveikcon(xarm,xArmlinkNum,xarm.model.fkine(bowlpose),xarmSteps, Obstacle);
 
@@ -136,7 +136,7 @@ input("Operation Completed! Press Enter to Exit Program...");
 
 %% Joystick Control
 % % setup joystick
-% id = 6; % Note: may need to be changed if multiple joysticks present
+% id = 6;               % Note: may need to be changed if multiple joysticks present
 % joy = vrjoystick(id);
 % caps(joy) % display joystick information
 % 

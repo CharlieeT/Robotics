@@ -10,7 +10,7 @@ classdef xArm5 < handle
         
         %> workspace
         workspace = [-2.5 2.5 -2.5 2.5 0.0 2];    % Good for Demo 
-        q = [0 0 0 -pi/2 0 0] 
+        q = [0 0 0 -pi/2 0] 
     end
     
     methods%% Class for xArm5 robot simulation
@@ -23,14 +23,13 @@ end
         function GetxArm5(self)
             pause(0.001);
 
-            L1 = Link('d',0.267,     'a',0,           'alpha',-pi/2,  'offset',0,           'qlim',[deg2rad(-360), deg2rad(360)]);
-            L2 = Link('d',0,         'a',0.28948866,  'alpha',0,      'offset',-1.3849179,  'qlim',[deg2rad(-118), deg2rad(120)]);
-            L3 = Link('d',0,         'a',0.351158796, 'alpha',0,      'offset',2.7331843,   'qlim',[deg2rad(-225),  deg2rad(11)]);
-            L4 = Link('d',0,         'a',0.076,       'alpha',-pi/2,  'offset', -1.3482664, 'qlim',[deg2rad(-97),  deg2rad(180)]);
-            L5 = Link('d',0.097,     'a',0,           'alpha',0,      'offset',0,           'qlim',[deg2rad(-360), deg2rad(360)]);
-            L6 = Link('theta',0,     'a',0,           'alpha',0,      'prismatic',          'qlim',[-0.1 0],  'offset',0);      % Working, but move in the wrong direction
+            L1 = Link('d',0.267,   'a',0,           'alpha',-pi/2,  'offset',0,           'qlim',[deg2rad(-360), deg2rad(360)]);
+            L2 = Link('d',0,       'a',0.28948866,  'alpha',0,      'offset',-1.3849179,  'qlim',[deg2rad(-118), deg2rad(120)]);
+            L3 = Link('d',0,       'a',0.351158796, 'alpha',0,      'offset',2.7331843,   'qlim',[deg2rad(-225),  deg2rad(11)]);
+            L4 = Link('d',0,       'a',0.076,       'alpha',-pi/2,  'offset', -1.3482664, 'qlim',[deg2rad(-97),  deg2rad(180)]);
+            L5 = Link('d',0.097,   'a',0,           'alpha',0,      'offset',0,           'qlim',[deg2rad(-360), deg2rad(360)]);
 
-            self.model = SerialLink([L1 L2 L3 L4 L5 L6],'name','xArm5');
+            self.model = SerialLink([L1 L2 L3 L4 L5],'name','xArm5');
             self.model.base = self.model.base * transl(0.6,-0.6,0.736);
         end
 
@@ -49,7 +48,7 @@ end
 %           self.model.plot3d(zeros(1,self.model.n),'noarrow','workspace',self.workspace);
             self.model.plot3d(self.q,'noarrow','workspace',self.workspace);
 
-            self.model.teach();
+            %self.model.teach();
             if isempty(findobj(get(gca,'Children'),'Type','Light'))
                 camlight
             end  
