@@ -21,7 +21,8 @@ PlaceObject("Cafe-Enviro-new.ply",[0,0,0]);
 % PlaceObject("Screen-and-Estop.ply",[0,0,0]);
 PlaceObject("Estop.ply",[0,0,0]);
 PlaceObject("FireEx.ply",[-0.5,1.5,0]);
-    
+PlaceObject("Laser-Curtain.ply",[0,0,0]);
+
 
 % % Load Boxes ----------------------------------------------------------------------------------------
 disp('Loading Boxes.... ');
@@ -114,8 +115,8 @@ Movements.moveikcon(dobot,dobotlinkNum, dobot.model.fkine(finishQ), steps,Obstac
 
 %% xArm5 Movement
 xarmSteps = 80;  % Dont do below 20
-xArmlinkNum = 6;               % debug: 6  if using the xarm5 with 6 link
-bowlpose = deg2rad([120, 40.7, -90.9, 48.3, 270, -0.8]);           % Bowl Start Pose   [-240, 55, -98, 40, 60, 0]
+xArmlinkNum = 5;               % debug: 6  if using the xarm5 with 6 link
+bowlpose = deg2rad([120, 40.7, -90.9, 48.3, 270]);%, -0.8]);           % Bowl Start Pose   [-240, 55, -98, 40, 60, 0]
 
 Movements.moveikcon(xarm,xArmlinkNum,xarm.model.fkine(bowlpose),xarmSteps, Obstacle);
 

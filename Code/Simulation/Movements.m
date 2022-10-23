@@ -1,6 +1,6 @@
 classdef Movements < handle
     properties
-        id = 5;     % Change to 5 for Justin, charlie is 1
+        id = 1;     % Change to 5 for Justin, charlie is 1
     end
     methods(Static)%Class use static methods
         function self = Movements()
@@ -183,7 +183,7 @@ classdef Movements < handle
                 x(3,i) = initialPos(3,4)*(1-s(i)) + s(i)*finalPos(3);
                 x(4,i) = 0;
                 x(5,i) = 0;
-                x(6,i) = 0;
+%                 x(6,i) = 0;
             end
 
             qMatrix1 = nan(steps,linkNum);                   % (steps,5)!!!!!
