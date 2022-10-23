@@ -1,6 +1,8 @@
 classdef Movements < handle
     properties
-        id = 1;     % Change to 5 for Justin, charlie is 1
+        id = 5;     % Change to 5 for Justin, charlie is 1
+        lightC = Collision.createWall();
+        CollidB = Collision.createWall2();
     end
     methods(Static)%Class use static methods
         function self = Movements()
@@ -8,8 +10,9 @@ classdef Movements < handle
         %% Movement funtions by use inverse kinematics
         function moveikcon(robot,linkNum,T,steps,Obstacle) 
             this = Movements;
-            points = Collision.createWall2();
             radii = [0.1 0.1 0.1];
+            lightC = Collision.createWall();
+            CollidB = Collision.createWall2();
             %id = 1;    % 5 for justin               % Note: may need to be changed if multiple joysticks present
             joy = vrjoystick(this.id);
             q1 = robot.model.getpos;
@@ -22,7 +25,7 @@ classdef Movements < handle
                 animate(robot.model,qMatrix(i,:));
                 joystick1(Obstacle, joy);
                 centerPoint = Obstacle.ObstaclePose(1:3,4);
-                if Collision.isCollision(points, centerPoint, radii) == 1
+                if Collision.isCollision(CollidB, centerPoint, radii)== 1 || Collision.isCollision(lightC, centerPoint, radii) == 1
                     disp("Object Detected");
                 end
                 drawnow();
@@ -31,7 +34,8 @@ classdef Movements < handle
         %% Movement objects and robot using inverse kinematics
         function moveobji(robot,linkNum,T,obj,steps, Obstacle)
             this = Movements;
-            points = Collision.createWall2();
+            lightC = Collision.createWall();
+            CollidB = Collision.createWall2();
             radii = [0.1 0.1 0.1];
             % Get vertex count
             %id = 1; % Note: may need to be changed if multiple joysticks present
@@ -48,7 +52,7 @@ classdef Movements < handle
                 obj.move(newPose); 
                 joystick1(Obstacle, joy);
                 centerPoint = Obstacle.ObstaclePose(1:3,4);
-                if Collision.isCollision(points, centerPoint, radii) == 1
+                if Collision.isCollision(CollidB, centerPoint, radii)== 1 || Collision.isCollision(lightC, centerPoint, radii) == 1
                     disp("Object Detected");
                 end
                 drawnow();
@@ -57,7 +61,8 @@ classdef Movements < handle
         %% Resolve Motion Rate Control
         function rmrc(robot,linkNum, finalPos, obj, steps, Obstacle)
             this = Movements;
-            points = Collision.createWall2();
+            lightC = Collision.createWall();
+            CollidB = Collision.createWall2();
             radii = [0.1 0.1 0.1];
             %id = 1;
             joy = vrjoystick(this.id);
@@ -90,7 +95,7 @@ classdef Movements < handle
                 obj.move(newPose1);
                 joystick1(Obstacle,joy);
                 centerPoint = Obstacle.ObstaclePose(1:3,4);
-                if Collision.isCollision(points, centerPoint, radii) == 1
+                if Collision.isCollision(CollidB, centerPoint, radii)== 1 || Collision.isCollision(lightC, centerPoint, radii) == 1
                     disp("Object Detected");
                 end
                 drawnow();
@@ -99,9 +104,8 @@ classdef Movements < handle
             for i = 1:steps-1
                 robot.model.animate(qMatrix1(steps-i,:));
                 joystick1(Obstacle, joy);
-                points = Collision.createWall2();
                 centerPoint = Obstacle.ObstaclePose(1:3,4);
-                if Collision.isCollision(points, centerPoint, radii) == 1
+                if Collision.isCollision(CollidB, centerPoint, radii)== 1 || Collision.isCollision(lightC, centerPoint, radii) == 1
                     disp("Object Detected");
                 end
                 drawnow();
@@ -109,7 +113,8 @@ classdef Movements < handle
         end
         %% Movement using RMRC with obstacle
         function rmrcObj(robot,linkNum, finalPos, obj,objStart, objEnd, cond, steps)
-            points = Collision.createWall();
+            lightC = Collision.createWall();
+            CollidB = Collision.createWall2();
             radii = [0.1 0.1 0.1];
             deltaT = 0.05;                                        % Discrete time step
             x = zeros(3,steps);
@@ -141,7 +146,7 @@ classdef Movements < handle
                 newPose2 = robot.model.fkine(qMatrix1(i-z,:));
                 cond.move(newPose2);
                 centerPoint = obj.ObstaclePose(1:3,4);
-                if Collision.isCollision(points, centerPoint, radii) == 1
+                if Collision.isCollision(CollidB, centerPoint, radii)== 1 || Collision.isCollision(lightC, centerPoint, radii) == 1
                     disp("Object Detected");
                     z = z+1;
                 else 

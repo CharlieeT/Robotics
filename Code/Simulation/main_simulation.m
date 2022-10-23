@@ -59,7 +59,7 @@ input('Done Loading Environment! Press Enter to Start')
 
 
 %% Contorl of Robot ======================================================= 
-
+hold on;
 % Moving 1
 T1 = dobot.model.fkine(qInitial);
 T2 = transl(T1(1:3,4))*transl(0,0,0.2);
