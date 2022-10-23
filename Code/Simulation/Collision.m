@@ -21,13 +21,11 @@ classdef Collision < handle
         end
         %% Create Prism around robot for collision detection
         function wallPoints = createWall()
-            [Y,Z] = meshgrid(-1:0.01:1,0.1:0.01:1.5);
+            [Y,Z] = meshgrid(-1.5:0.01:2,0.1:0.01:1.6);
             sizeMat = size(Y);
-            X = repmat(1,sizeMat(1),sizeMat(2));
+            X = repmat(-2,sizeMat(1),sizeMat(2));
             wallPoints = [X(:),Y(:),Z(:)];
             
-            wallPoints = [ wallPoints; wallPoints * rotz(pi/2)...
-                ; wallPoints * rotz(pi); wallPoints * rotz(3*pi/2)];
             %cubeAtOigin_h = plot3(wallPoints(:,1),wallPoints(:,2),wallPoints(:,3),'r.');
         end
         %% Create Prism around robot work area for collision detection
