@@ -134,22 +134,22 @@ finalPosBowl = [0.6, -1.25, 1.25]; % Top of Counter bar                % [1.2, -
 Movements.rmrc2(xarm,xArmlinkNum,finalPosBowl,Bowl,Red,Yellow,Brown,xarmSteps);
 
 
-% Moving Coffee
+% Moving 3
 coffeepose = deg2rad([21.8,    16.6,    33.8,   22.2,    360]);
-Movements.moveikcon(xarm,xArmlinkNum,dobot.model.fkine(coffeepose),xarmSteps,Obstacle);
+Movements.moveikcon(xarm,xArmlinkNum,dobot.model.fkine(coffeepose),steps,Obstacle);
 
-% movecoffee = transl(-0.075,-0.22,0.95);
-%  
-% Movements.moveobji(xarm,xArmlinkNum,movecoffee,Coffee,xarmSteps,Obstacle);
+movecoffee = transl(-0.075,-0.22,0.95);
  
-% Resolved Motion Rate Control 3
+Movements.moveobji(xarm,xArmlinkNum,movecoffee,Coffee,steps,Obstacle);
+ 
+%Resolved Motion Rate Control 3
  
 finalPosCoffee = [0.5, -1.25, 1.2];
  
-Movements.rmrc3(xarm,xArmlinkNum,finalPosCoffee,Coffee,xarmSteps);
+Movements.rmrc3(xarm,xArmlinkNum,finalPosCoffee,Coffee,steps,Obstacle);
+rmrc3(robot, linkNum, finalPos, obj, steps)
 
 input("Operation Completed! Press Enter to Exit Program...");
-
 %% Collision Detection
 
 % % Create Wall of Detection around the table

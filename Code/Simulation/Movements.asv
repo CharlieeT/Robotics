@@ -176,11 +176,11 @@ classdef Movements < handle
                 drawnow();
             end
         end
-        %% Resolve Motion Rate Control 2
-        function rmrc2(robot, linkNum, finalPos, obj, cond1, cond2, cond3, steps)
+        %% Resolve Motion Rate Control
+        function rmrc2(robot,linkNum, finalPos, obj, cond1, cond2, cond3, steps)
             deltaT = 0.05;                                        % Discrete time step
             x = zeros(3,steps);
-            s = lspb(0,1,steps);                                  % Create interpolation scalar
+            s = lspb(0,1,steps);                                 % Create interpolation scalar
             initialPos = robot.model.fkine(robot.model.getpos());
             for i = 1:steps
                 x(1,i) = initialPos(1,4)*(1-s(i)) + s(i)*finalPos(1);
@@ -188,10 +188,10 @@ classdef Movements < handle
                 x(3,i) = initialPos(3,4)*(1-s(i)) + s(i)*finalPos(3);
                 x(4,i) = 0;
                 x(5,i) = 0;
-%               x(6,i) = 0;
+%                 x(6,i) = 0;
             end
 
-            qMatrix1 = nan(steps,linkNum);                        % (steps,5)!!!!!
+            qMatrix1 = nan(steps,linkNum);                   % (steps,5)!!!!!
 
             q0 = robot.model.getpos;
             T = robot.model.fkine(q0);
@@ -205,14 +205,14 @@ classdef Movements < handle
                 qMatrix1(i+1,:) =  qMatrix1(i,:) + deltaT*qdot';      % Update next joint state
                 robot.model.animate(qMatrix1(i,:));
                 newPose1 = robot.model.fkine(qMatrix1(i,:));
-%                 obj.move(  newPose1*trotx(pi)*transl(-0.03,0.03,-0.09));
+%                 obj.move(newPose1*trotx(pi)*transl(-0.03,0.03,-0.09));
 %                 cond1.move(newPose1*trotx(pi)*transl(-0.03,0.03,-0.08));
 %                 cond2.move(newPose1*trotx(pi)*transl(-0.03,0.03,-0.06));
 %                 cond3.move(newPose1*trotx(pi)*transl(-0.03,0.03,-0.04));
-                  obj.move(  newPose1*trotx(pi)*transl(0.05,-0.10,-0.17));
-                  cond1.move(newPose1*trotx(pi)*transl(0.05,-0.10,-0.16));
-                  cond2.move(newPose1*trotx(pi)*transl(0.05,-0.10,-0.14));
-                  cond3.move(newPose1*trotx(pi)*transl(0.05,-0.10,-0.12));
+                  obj.move(  newPose1*trotx(pi)*transl(0.04,-0.10,-0.17));
+                  cond1.move(newPose1*trotx(pi)*transl(0.04,-0.10,-0.16));
+                  cond2.move(newPose1*trotx(pi)*transl(0.04,-0.10,-0.14));
+                  cond3.move(newPose1*trotx(pi)*transl(0.04,-0.10,-0.12));
                 drawnow();
             end
 
@@ -221,42 +221,7 @@ classdef Movements < handle
 %                 drawnow();
 %             end
         end
-
-        %% Resolve Motion Rate Control 3  (for coffee)
-        function rmrc3(robot, linkNum, finalPos, obj, steps)
-            deltaT = 0.05;                                        % Discrete time step
-            x = zeros(3,steps);
-            s = lspb(0,1,steps);                                  % Create interpolation scalar
-            initialPos = robot.model.fkine(robot.model.getpos());
-            for i = 1:steps
-                x(1,i) = initialPos(1,4)*(1-s(i)) + s(i)*finalPos(1);
-                x(2,i) = initialPos(2,4)*(1-s(i)) + s(i)*finalPos(2);
-                x(3,i) = initialPos(3,4)*(1-s(i)) + s(i)*finalPos(3);
-                x(4,i) = 0;
-                x(5,i) = 0;
-%               x(6,i) = 0;
-            end
-
-            qMatrix1 = nan(steps,linkNum);                        % (steps,5)!!!!!
-
-            q0 = robot.model.getpos;
-            T = robot.model.fkine(q0);
-            qMatrix1(1,:) = robot.model.ikcon(T,q0);                  % Solve for joint angles
- 
-            for i = 1:steps-1
-                xdot = (x(:,i+1) - x(:,i))/deltaT;                    % Calculate velocity at discrete time step
-                J = robot.model.jacob0(qMatrix1(i,:));                % Get the Jacobian at the current state
-                J = J(1:linkNum,1:linkNum);
-                qdot = inv(J)*xdot;                                   % Solve velocitities via RMRC
-                qMatrix1(i+1,:) =  qMatrix1(i,:) + deltaT*qdot';      % Update next joint state
-                robot.model.animate(qMatrix1(i,:));
-                newPose1 = robot.model.fkine(qMatrix1(i,:));
-                  obj.move(  newPose1*trotx(pi)*transl(0,0,0));
-                drawnow();
-            end
-        end
-
-        %% Resolve Motion Rate Control (not currently in use) -----------------------------------
+        %% Resolve Motion Rate Control
         function rmrc1(robot,linkNum, finalPos, steps)
             deltaT = 0.05;                                        % Discrete time step
             x = zeros(3,steps);
