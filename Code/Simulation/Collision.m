@@ -44,13 +44,19 @@ classdef Collision < handle
             %cubeAtOigin_h = plot3(wallPoints(:,1),wallPoints(:,2),wallPoints(:,3),'r.');
         end
         %% Check for collision
-        function collision = isCollision(wallPoints, objectCenter, objectRadii)
+        function isCollision(wallPoints, objectCenter, objectRadii, Obstacle)
+            id = 5;
+            joy = vrjoystick(id);
             algebraicDist = GetAlgebraicDist(wallPoints, objectCenter, objectRadii);
             pointsInside = find(algebraicDist<=1);
             if (pointsInside > 0)
-                collision = 1;
-            else
-                collision = 0;
+                disp("Object Detected!");
+                while (pointsInside > 0)
+                    algebraicDist = GetAlgebraicDist(wallPoints, objectCenter, objectRadii);
+                    pointsInside = find(algebraicDist<=1);
+                    joystick1(Obstacle, joy);
+                end
+                Input("Object has been removed, press enter to continue");
             end
             
             function algebraicDist = GetAlgebraicDist(points, centerPoint, radii)
