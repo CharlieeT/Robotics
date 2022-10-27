@@ -1,6 +1,6 @@
 classdef Movements < handle
     properties
-        id = 1;     % Change to 5 for Justin, charlie is 1
+        id = 5;     % Change to 5 for Justin, charlie is 1
         lightC = Collision.createWall();
         CollidB = Collision.createWall2();
     end
@@ -131,10 +131,10 @@ classdef Movements < handle
             qMatrix1(1,:) = robot.model.ikcon(T,q0);                 % Solve for joint angles
             z = 0;
             for i = 1:steps-1
-                xdot = (x(:,i-z+1) - x(:,i-z))/deltaT;                             % Calculate velocity at discrete time step
-                J = robot.model.jacob0(qMatrix1(i-z,:));            % Get the Jacobian at the current state
+                xdot = (x(:,i-z+1) - x(:,i-z))/deltaT;                    % Calculate velocity at discrete time step
+                J = robot.model.jacob0(qMatrix1(i-z,:));                  % Get the Jacobian at the current state
                 J = J(1:linkNum,1:linkNum);
-                qdot = inv(J)*xdot;                             % Solve velocitities via RMRC
+                qdot = inv(J)*xdot;                                       % Solve velocitities via RMRC
                 qMatrix1(i-z+1,:) =  qMatrix1(i-z,:) + deltaT*qdot';      % Update next joint state
                 
                 newPose1 = [1 0 0 objStart(1)+(i*(objEnd(1)-objStart(1))/steps); 0 1 0 objStart(2)+(i*(objEnd(2)-objStart(2))/steps); 0 0 1 objStart(3)+(i*(objEnd(3)-objStart(3))/steps); 0 0 0 1];

@@ -45,7 +45,7 @@ classdef Collision < handle
         end
         %% Check for collision
         function isCollision(wallPoints, objectCenter, objectRadii, Obstacle)
-            id = 1;
+            id = 5;
             joy = vrjoystick(id);
             algebraicDist = GetAlgebraicDist(wallPoints, objectCenter, objectRadii);
             pointsInside = find(algebraicDist<=1);
