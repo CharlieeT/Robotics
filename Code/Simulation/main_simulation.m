@@ -77,9 +77,9 @@ function main_simulation(dobot, xarm, Red, Yellow, Brown, bowl, obstacle, Coffee
     steps = 20;         % Dont do below 20
     dobotlinkNum = 5;
     
-    Movements.moveikcon(dobot,dobotlinkNum,T2,steps,obstacle);
+    Movements.moveikcon(dobot,dobotlinkNum,T2,steps,obstacle); % Move to a neutral position
     
-    % Moving 1
+    % Movement of first condiment
     
     Movements.moveikcon(dobot,dobotlinkNum,Red.RedCondimentPose,steps,obstacle);
     
@@ -92,7 +92,7 @@ function main_simulation(dobot, xarm, Red, Yellow, Brown, bowl, obstacle, Coffee
     
     Movements.rmrc(dobot,dobotlinkNum,finalPosRed, Red, steps, obstacle);
     
-    % Moving 2
+    % Moving of second condiment
      
     Movements.moveikcon(dobot,dobotlinkNum,Yellow.YellowCondimentPose,steps,obstacle);
     
@@ -106,7 +106,7 @@ function main_simulation(dobot, xarm, Red, Yellow, Brown, bowl, obstacle, Coffee
      
     Movements.rmrc(dobot,dobotlinkNum,finalPosYellow, Yellow, steps,obstacle);
     
-    % Moving 3
+    % Moving of third condiment
     brownI = [-1.9199    0.9436    0.9928   -0.3657    1.4835];
     Movements.moveikcon(dobot,dobotlinkNum,dobot.model.fkine(brownI),steps,obstacle);
     
@@ -140,18 +140,14 @@ function main_simulation(dobot, xarm, Red, Yellow, Brown, bowl, obstacle, Coffee
     Movements.rmrc2(xarm,xArmlinkNum,finalPosbowl,bowl,Red,Yellow,Brown,xarmSteps);
     
     
-    %% Moving Coffee
+    %% xArm5 Moving Coffee
     % coffeepose = deg2rad([21.8,    16.6,    33.8,   22.2,    360]);
     coffeepose = deg2rad([-158,    -65.6,    -211,   -72.1,    353]);         
     Movements.moveikcon(xarm,xArmlinkNum,xarm.model.fkine(coffeepose),xarmSteps, obstacle);
     
     finalPosCoffee = [0.5, -1.25, 1.16];
     Movements.rmrc3(xarm,xArmlinkNum,finalPosCoffee,Coffee,xarmSteps);
-    %%
-    % % Move back to original pose
-    % xArmFinQ = deg2rad([0, 0, 0, -pi/2, 0] );         
-    % Movements.moveikcon(xarm,xArmlinkNum,xarm.model.fkine(xArmFinQ),xarmSteps, obstacle);
-    
+
     input("Operation Completed! Press Enter to Exit Program...");
     
 %     %% Joystick Control
